@@ -2,16 +2,15 @@ const mongoose = require("mongoose");
 
 const connect = () => {
   mongoose
-    // .connect("mongodb://3.38.167.244:27017/hw_lv1")
-    .connect("mongodb://localhost:27017/hw_lv1")
+    .connect("mongodb://15.165.234.49:27017/hw_lv1")
     .then(() => {
-      console.log("Successfully connected to Mongo");
+      console.log("Connected to mongoDB");
     })
     .catch((err) => console.log(err));
 };
 
 mongoose.connection.on("error", (err) => {
-  console.error("Failed to connect to Mongo", err);
+  console.error("Failed to connect to mongoDB", err);
 });
 
 module.exports = connect;
