@@ -7,7 +7,6 @@ const Post = require("../schemas/post");
 router.use("/posts/:_postId/comments", [commentsRouter]);
 
 // 게시글 작성
-//   제목, 작성자명, 비밀번호, 작성 내용 입력
 router.post("/posts", async (req, res) => {
   if (Object.keys(req.body).length < 4) {
     return res.status(400).json({
@@ -35,9 +34,8 @@ router.post("/posts", async (req, res) => {
 });
 
 // 전체 게시글 목록 조회
-//   제목, 작성자명, 작성 날짜 조회하기 (작성 날짜 기준으로 내림차순)
-router.get("/posts/", async (req, res) => {
-  const posts = await Post.find({});
+router.get("/posts", async (req, res) => {
+  const posts = await Post.find({}).select("user title createdAt");
   if (!posts.length)
     return res.status(404).json({ message: "게시글이 존재하지 않습니다." });
 
@@ -45,12 +43,12 @@ router.get("/posts/", async (req, res) => {
   const postsWithoutPasswords = [];
 
   posts.forEach((post) => {
-    const withoutPassword = (({ postId, user, title, createdAt }) => ({
-      postId,
-      user,
-      title,
-      createdAt,
-    }))(post);
+    const withoutPassword = {
+      postId: post._id.toString(),
+      user: post.user,
+      title: post.title,
+      createAt: post.createdAt,
+    };
     postsWithoutPasswords.push(withoutPassword);
   });
 
@@ -58,7 +56,6 @@ router.get("/posts/", async (req, res) => {
 });
 
 // 게시글 상세 조회
-//   제목, 작성자명, 작성 날짜, 작성 내용 조회
 router.get("/posts/:_postId", async (req, res) => {
   const { _postId } = req.params;
   try {
@@ -86,7 +83,6 @@ router.get("/posts/:_postId", async (req, res) => {
 });
 
 // 게시글 수정
-//   API를 호출할 때 입력된 비밀번호를 비교하여 동일할 때만 글 수정
 router.put("/posts/:_postId", async (req, res) => {
   const { _postId } = req.params;
   try {
@@ -110,7 +106,6 @@ router.put("/posts/:_postId", async (req, res) => {
 });
 
 // 게시글 삭제
-//   API를 호출할 때 입력된 비밀번호를 비교하여 동일할 때만 글 삭제
 router.delete("/posts/:_postId", async (req, res) => {
   const { _postId } = req.params;
   try {
