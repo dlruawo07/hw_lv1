@@ -68,7 +68,9 @@ router.put("/:_commentId", async (req, res) => {
 
     return res.status(200).json({ message: "댓글을 수정하였습니다." });
   } catch (e) {
-    return res.status(400).json({ message: e.message });
+    return res
+      .status(400)
+      .json({ message: "댓글 조회에 실패하였습니다. " + e.message });
   }
 });
 
@@ -90,7 +92,9 @@ router.delete("/:_commentId", async (req, res) => {
 
     return res.status(200).json({ message: "댓글을 삭제하였습니다." });
   } catch (e) {
-    return res.status(400).json({ message: e.message });
+    return res
+      .status(400)
+      .json({ message: "댓글 조회에 실패하였습니다. " + e.message });
   }
 });
 

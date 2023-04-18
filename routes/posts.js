@@ -78,7 +78,9 @@ router.get("/posts/:_postId", async (req, res) => {
     }))(post);
     res.status(200).json({ data: postWithoutPassword });
   } catch (e) {
-    return res.status(400).json({ message: e.message });
+    return res
+      .status(400)
+      .json({ message: "게시글 조회에 실패하였습니다. " + e.message });
   }
 });
 
@@ -101,7 +103,9 @@ router.put("/posts/:_postId", async (req, res) => {
 
     res.status(200).json({ message: "게시글을 수정하였습니다." });
   } catch (e) {
-    res.status(400).json({ message: e.message });
+    res
+      .status(400)
+      .json({ message: "게시글 조회에 실패하였습니다. " + e.message });
   }
 });
 
@@ -121,7 +125,9 @@ router.delete("/posts/:_postId", async (req, res) => {
 
     return res.status(200).json({ message: "게시글을 삭제하였습니다." });
   } catch (e) {
-    return res.status(400).json({ message: e.message });
+    return res
+      .status(400)
+      .json({ message: "게시글 조회에 실패하였습니다. " + e.message });
   }
 });
 
